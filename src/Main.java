@@ -33,7 +33,7 @@ public class Main extends Application{
 	private Text lightBrownText = new Text("B = Light Brown");
 	private Text creatorNameText = new Text("Created by Robert Boutillier");
 	private Text instructionText = new Text("First click to place the Momma Duck, following clicks will place the baby ducks.");
-	private Text secondInstructionText = new Text("Use the left and right arrow keys to move the ducks");
+	private Text secondInstructionText = new Text("Use the arrow keys to move the ducks. Press the E key to change the scene");
 	private int sceneLength = 600;
 	private int sceneHeight = 450;
 	private Color backgroundColor;
@@ -105,13 +105,13 @@ public class Main extends Application{
 					stage.show();
 				}
 				
-				parkScene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+				parkScene.setOnMousePressed(new EventHandler<MouseEvent>() {
 					public void handle(MouseEvent event) {
 						if(clickCount == 0) {
 							setMommaDuckXY(event.getX(), event.getY());
 							clickCount++;
 						}
-						else {
+						else{
 							BabyDuck babyDuck = new BabyDuck(event.getX(), event.getY());
 							babyDucks.add(babyDuck);
 							parkPane.getChildren().addAll(babyDuck.getBabyDuckBill(), babyDuck.getBabyDuckHead(), babyDuck.getBabyDuckWhiteEye(), babyDuck.getBabyDuckBlackEye(),
@@ -134,6 +134,25 @@ public class Main extends Application{
 							for(BabyDuck babyDuck : babyDucks) {
 								babyDuck.setBabyDuckXY(babyDuck.getBabyDuckBody().getCenterX() + 8, babyDuck.getBabyDuckBody().getCenterY());
 							}
+						}
+						if(keyCode.equals("UP")) {
+							setMommaDuckXY(mommaDuckBody.getCenterX(), mommaDuckBody.getCenterY() - 8);
+							for(BabyDuck babyDuck : babyDucks) {
+								babyDuck.setBabyDuckXY(babyDuck.getBabyDuckBody().getCenterX(), babyDuck.getBabyDuckBody().getCenterY() - 8);
+							}
+						}
+						if(keyCode.equals("DOWN")) {
+							setMommaDuckXY(mommaDuckBody.getCenterX(), mommaDuckBody.getCenterY() + 8);
+							for(BabyDuck babyDuck : babyDucks) {
+								babyDuck.setBabyDuckXY(babyDuck.getBabyDuckBody().getCenterX(), babyDuck.getBabyDuckBody().getCenterY() + 8);
+							}
+						}
+						if(keyCode.equals("E")) {
+							Random r = new Random();
+							double randomR = 0 + (1 - 0) * r.nextDouble();
+							double randomG = 0 + (1 - 0) * r.nextDouble();
+							double randomB = 0 + (1 - 0) * r.nextDouble();
+							parkPond.setFill(new Color(randomR, randomG, randomB, 1));
 						}
 					}
 				});
